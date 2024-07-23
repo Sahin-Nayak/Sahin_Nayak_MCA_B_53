@@ -1,0 +1,299 @@
+--------------------------- Table Making Query's -----------------------------------
+
+CREATE TABLE Student (
+    Rollno INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Dob DATE,
+    Gender CHAR(1),
+    Doa DATE,
+    Bcode INT,
+    CONSTRAINT chk_gender CHECK (Gender IN ('M', 'F'))
+);
+
+Desc Student;
+
+-------------------------------------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER before_insert_Student
+BEFORE INSERT ON Student
+FOR EACH ROW
+BEGIN
+    IF :NEW.Doa > SYSDATE THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Date of admission cannot be in the future');
+    END IF;
+END;
+/
+
+-------------------------------------------------------------------------------------
+CREATE TABLE Department (
+    Dno INT PRIMARY KEY,
+    Dname VARCHAR(100)
+);
+
+Desc Department;
+
+-------------------------------------------------------------------------------------
+
+CREATE TABLE Branch (
+    Bcode INT PRIMARY KEY,
+    Bname VARCHAR(100),
+    Dno INT,
+    FOREIGN KEY (Dno) REFERENCES Department(Dno)
+);
+
+Desc Branch;
+
+-------------------------------------------------------------------------------------
+
+CREATE TABLE Course (
+    Ccode INT PRIMARY KEY,
+    Cname VARCHAR(100),
+    Credits INT,
+    Dno INT,
+    FOREIGN KEY (Dno) REFERENCES Department(Dno)
+);
+
+Desc Course;
+
+-------------------------------------------------------------------------------------
+
+CREATE TABLE Branch_Course (
+    Bcode INT,
+    Ccode INT,
+    Semester INT,
+    PRIMARY KEY (Bcode, Ccode),
+    FOREIGN KEY (Bcode) REFERENCES Branch(Bcode),
+    FOREIGN KEY (Ccode) REFERENCES Course(Ccode)
+);
+
+Desc Branch_Course;
+
+-------------------------------------------------------------------------------------
+
+CREATE TABLE Enrolls (
+    Rollno INT,
+    Ccode INT,
+    Sess DATE,
+    Grade CHAR(1),
+    PRIMARY KEY (Rollno, Ccode, Sess),
+    FOREIGN KEY (Rollno) REFERENCES Student(Rollno),
+    FOREIGN KEY (Ccode) REFERENCES Course(Ccode)
+);
+
+Desc Enrolls;
+
+-------------------------------------------------------------------------------------
+-------------------------- Table Structure ------------------------------------------
+
+TABLE STUDENT
+Column	Null?	Type
+ROLLNO	NOT NULL	NUMBER
+NAME	 - 	VARCHAR2(100)
+DOB	 - 	DATE
+GENDER	 - 	CHAR(1)
+DOA	 - 	DATE
+BCODE	 - 	NUMBER
+
+6 rows selected.
+
+--------------------------------------------------------------------------------------
+
+TABLE DEPARTMENT
+Column	Null?	Type
+DNO	NOT NULL	NUMBER
+DNAME	 - 	VARCHAR2(100)
+
+2 rows selected.
+
+--------------------------------------------------------------------------------------
+
+TABLE BRANCH
+Column	Null?	Type
+BCODE	NOT NULL	NUMBER
+BNAME	 - 	VARCHAR2(100)
+DNO	 - 	NUMBER
+
+3 rows selected.
+
+--------------------------------------------------------------------------------------
+
+TABLE COURSE
+Column	Null?	Type
+CCODE	NOT NULL	NUMBER
+CNAME	 - 	VARCHAR2(100)
+CREDITS	 - 	NUMBER
+DNO	 - 	NUMBER
+
+4 rows selected.
+
+--------------------------------------------------------------------------------------
+
+TABLE BRANCH_COURSE
+Column	Null?	Type
+BCODE	NOT NULL	NUMBER
+CCODE	NOT NULL	NUMBER
+SEMESTER	 - 	NUMBER
+
+3 rows selected.
+
+--------------------------------------------------------------------------------------
+
+TABLE ENROLLS
+Column	Null?	Type
+ROLLNO	NOT NULL	NUMBER
+CCODE	NOT NULL	NUMBER
+SESS	NOT NULL	DATE
+GRADE	 - 	CHAR(1)
+
+4 rows selected.
+
+----------------------------------------------------------------------------------------
+--------------------------- Data Insertion ---------------------------------------------
+
+INSERT INTO Student (Rollno, Name, Dob, Gender, Doa, Bcode) VALUES (1, 'John Doe', TO_DATE('2000-05-15', 'YYYY-MM-DD'), 'M', TO_DATE('2023-09-01', 'YYYY-MM-DD'), 101);
+INSERT INTO Student (Rollno, Name, Dob, Gender, Doa, Bcode) VALUES (2, 'Jane Smith', TO_DATE('2001-03-20', 'YYYY-MM-DD'), 'F', TO_DATE('2023-09-01', 'YYYY-MM-DD'), 102);
+ 
+  SELECT * FROM Student;
+
+ROLLNO	 NAME	          DOB	       GENDER	  DOA	       BCODE
+1	John Doe	15-MAY-00	M	01-SEP-23	101
+2	Jane Smith	20-MAR-01	F	01-SEP-23	102
+
+----------------------------------------------------------------------------------------
+
+INSERT INTO Department (Dno, Dname) VALUES (101, 'Computer Science');
+INSERT INTO Department (Dno, Dname) VALUES (102, 'Electrical Engineering');
+ 
+  SELECT * FROM Department;
+
+DNO	DNAME
+101	Computer Science
+102	Electrical Engineering
+----------------------------------------------------------------------------------------
+
+INSERT INTO Branch (Bcode, Bname, Dno) VALUES (201, 'Software Engineering', 101);
+INSERT INTO Branch (Bcode, Bname, Dno) VALUES (202, 'Networks and Systems', 101);
+INSERT INTO Branch (Bcode, Bname, Dno) VALUES (203, 'Computer Networks', 101);
+INSERT INTO Branch (Bcode, Bname, Dno) VALUES (204, 'Data Science', 101);
+
+  SELECT * FROM Branch;
+
+BCODE	BNAME	                DNO
+201	Software Engineering	101
+202	Networks and Systems	101
+203	Computer Networks	101
+204	Data Science	        101
+
+----------------------------------------------------------------------------------------
+
+INSERT INTO Course (Ccode, Cname, Credits, Dno) VALUES (301, 'Database Systems', 3, 101);
+INSERT INTO Course (Ccode, Cname, Credits, Dno) VALUES (302, 'Operating Systems', 3, 101);
+INSERT INTO Course (Ccode, Cname, Credits, Dno) VALUES (303, 'Digital Electronics', 3, 101);
+INSERT INTO Course (Ccode, Cname, Credits, Dno) VALUES (304, 'Fluid Dynamics', 3, 101);
+INSERT INTO Course (Ccode, Cname, Credits, Dno) VALUES (305, 'Web Development', 3, 101);
+INSERT INTO Course (Ccode, Cname, Credits, Dno) VALUES (306, 'Machine Learning', 3, 101);
+INSERT INTO Course (Ccode, Cname, Credits, Dno) VALUES (307, 'Robotics', 3, 101);
+
+  SELECT * FROM Course;
+
+CCODE	CNAME	            CREDITS	DNO
+301	Database Systems	3	101
+302	Operating Systems	3	101
+303	Digital Electronics	3	101
+304	Fluid Dynamics	        3	101
+305	Web Development	        3	101
+306	Machine Learning	3	101
+307	Robotics	        3	101
+
+----------------------------------------------------------------------------------------
+
+INSERT INTO Branch_Course (Bcode, Ccode, Semester) VALUES (201, 301, 1);
+INSERT INTO Branch_Course (Bcode, Ccode, Semester) VALUES (202, 301, 1);
+INSERT INTO Branch_Course (Bcode, Ccode, Semester) VALUES (203, 301, 1);
+INSERT INTO Branch_Course (Bcode, Ccode, Semester) VALUES (204, 301, 1);
+
+  SELECT * FROM Branch_Course;
+
+BCODE	CCODE	SEMESTER
+201	301	1
+202	301	1
+203	301	1
+204	301	1
+
+----------------------------------------------------------------------------------------
+
+INSERT INTO Enrolls (Rollno, Ccode, Sess, Grade) VALUES (2, 301, TO_DATE('2023-09-01', 'YYYY-MM-DD'), 'S');
+INSERT INTO Enrolls (Rollno, Ccode, Sess, Grade) VALUES (2, 303, TO_DATE('2023-09-01', 'YYYY-MM-DD'), 'S');
+INSERT INTO Enrolls (Rollno, Ccode, Sess, Grade) VALUES (2, 302, TO_DATE('2023-09-01', 'YYYY-MM-DD'), 'S');
+
+  SELECT * FROM Enrolls;
+
+ROLLNO	CCODE	   SESS       GRADE
+2	301	01-SEP-23	S
+2	303	01-SEP-23	S
+2	302	01-SEP-23	S
+
+----------------------------------------------------------------------------------------
+.......................... 1 ...........................................................
+
+query : 
+
+SELECT D.Dno, D.Dname
+FROM Department D
+JOIN Branch B ON D.Dno = B.Dno
+GROUP BY D.Dno, D.Dname
+HAVING COUNT(B.Bcode) > 3;
+
+output:
+
+DNO	DNAME
+101	Computer Science
+
+.......................... 2 ...........................................................
+
+query :
+
+SELECT D.Dno, D.Dname FROM Department D JOIN Course C ON D.Dno = C.Dno GROUP BY D.Dno, D.Dname HAVING COUNT(C.Ccode) > 6;
+
+output :
+
+DNO	DNAME
+101	Computer Science
+
+.......................... 3 ...........................................................
+
+SELECT C.Ccode, C.Cname, COUNT(BC.Bcode) AS Branches_Count 
+FROM Course C JOIN Branch_Course BC ON C.Ccode = BC.Ccode GROUP BY C.Ccode, C.Cname HAVING COUNT(BC.Bcode) > 3;
+
+output :
+
+CCODE	CNAME	BRANCHES_COUNT
+301	Database Systems	4
+
+.......................... 4 ...........................................................
+
+query :
+
+SELECT E.Rollno, COUNT(E.Ccode) AS Courses_with_S FROM Enrolls E WHERE E.Grade = 'S' GROUP BY E.Rollno HAVING COUNT(E.Ccode) > 2;
+
+output :
+
+
+ROLLNO	COURSES_WITH_S
+2	3
+
+.......................... 5 ...........................................................
+
+query :
+
+CREATE VIEW SuccessfulCoursesView AS SELECT S.Rollno, S.Name, COUNT(E.Ccode) AS SuccessfulCoursesCount FROM Student S JOIN Enrolls E ON S.Rollno = E.Rollno WHERE E.Grade = 'S' GROUP BY S.Rollno, S.Name;
+
+SELECT * FROM SuccessfulCoursesView;
+
+
+output :
+
+ROLLNO	NAME	        SUCCESSFULCOURSESCOUNT
+2	Jane Smith	3
+
+

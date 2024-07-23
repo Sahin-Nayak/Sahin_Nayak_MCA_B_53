@@ -1,0 +1,175 @@
+-------------------------------- OUTPUT OF QUESTION 2 ---------------------------------------------------
+
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 11
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 6
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 8
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 19
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 4
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 10
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 5
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 17
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 43
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 49
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+Enter data to insert: 31
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 2
+In-order traversal: 4 5 6 8 10 11 17 19 31 43 49
+
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 3
+Exiting...
+
+--------------------------------
+Process exited after 52.5 seconds with return value 0
+Press any key to continue . . .
+
+
+
+------------------------------------------------------------------ OUTPUT OF QUESTION NUMBER 5 -------------------------------------------------------------------------------
+
+
+Enter your name: sahinnayak
+Sorted sequence of characters in your name: aaahiknnsy
+
+
+-------------------------------------------------------------- 9 BAD DIYE SOB ------------------------------------------------------------------------------------------------
+
+
+ 1. Insert Element
+ 2. Display In Inorder / view elements in sorting order
+ 3. Display In Preorder
+ 4. Display In Postorder
+ 5. Search Element
+ 6. Count Node
+ 7. Find Highest Element
+ 8. Exit
+
+Enter your choice :1
+
+Enter the value of the node :11
+
+Enter your choice :1
+
+Enter the value of the node :6
+
+Enter your choice :1
+
+Enter the value of the node :8
+
+Enter your choice :1
+
+Enter the value of the node :19
+
+Enter your choice :1
+
+Enter the value of the node :4
+
+Enter your choice :1
+
+Enter the value of the node :10
+
+Enter your choice :1
+
+Enter the value of the node :5
+
+Enter your choice :1
+
+Enter the value of the node :17
+
+Enter your choice :1
+
+Enter the value of the node :43
+
+Enter your choice :1
+
+Enter the value of the node :49
+
+Enter your choice :1
+
+Enter the value of the node :31
+
+Enter your choice :2
+4       5       6       8       10      11      17      19      31      43      49
+Enter your choice :3
+11      6       4       5       8       10      19      17      43      31      49
+Enter your choice :4
+5       4       10      8       6       17      31      49      43      19      11
+Enter your choice :5
+
+Enter the element that to be search :49
+Element 49 is found
+Enter your choice :5
+
+Enter the element that to be search :50
+Element 50 is not found
+Enter your choice :6
+
+Total number of node is : 11
+Enter your choice :7
+
+Highest number in BST is : 49
+Enter your choice :8
+
+--------------------------------
+Process exited after 75.85 seconds with return value 0
+Press any key to continue . . .

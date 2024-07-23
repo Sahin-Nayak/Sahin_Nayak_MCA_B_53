@@ -1,0 +1,249 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+												ASSIGNMENT 1
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+CREATE TABLE book (
+    book_id NUMBER(38) PRIMARY KEY,
+    title VARCHAR2(20),
+    pub_year VARCHAR2(20),
+    publisher_name VARCHAR2(20)
+);
+
+
+CREATE TABLE book_authors (
+    author_name VARCHAR2(20) NOT NULL,
+    book_id NUMBER(38) NOT NULL,
+    FOREIGN KEY (book_id) REFERENCES book(book_id)
+    ON DELETE CASCADE
+);
+
+
+CREATE TABLE publisher (
+    name VARCHAR2(20) PRIMARY KEY,
+    phone NUMBER(38),
+    address VARCHAR2(20)
+);
+
+
+ALTER TABLE book
+ADD CONSTRAINT fk_publisher_name
+FOREIGN KEY (publisher_name)
+REFERENCES publisher(name)
+ON DELETE CASCADE;
+
+
+CREATE TABLE book_copies (
+    book_id NUMBER(38) ,
+    no_of_copies NUMBER(38),
+    branch_id NUMBER(38),
+    PRIMARY KEY (book_id, branch_id),
+    FOREIGN KEY (book_id) REFERENCES book(book_id)
+    ON DELETE CASCADE
+);
+
+
+CREATE TABLE book_lending (
+    date_out DATE,
+    due_date DATE,
+    book_id NUMBER(38),
+    branch_id NUMBER(38),
+    card_no NUMBER(38),
+    PRIMARY KEY (book_id, branch_id, card_no),
+    FOREIGN KEY (book_id) REFERENCES book(book_id)
+    ON DELETE CASCADE
+);
+
+
+CREATE TABLE library_branch (
+    branch_id NUMBER(38) PRIMARY KEY,
+    branch_name VARCHAR2(50),
+    address VARCHAR2(50)
+);
+
+
+CREATE TABLE card (
+    card_no NUMBER(38) PRIMARY KEY
+);
+
+
+ALTER TABLE book_copies
+ADD CONSTRAINT fk_book_copies_branch
+FOREIGN KEY (branch_id)
+REFERENCES library_branch(branch_id)
+ON DELETE CASCADE;
+
+
+ALTER TABLE book_lending
+ADD CONSTRAINT fk_book_lending_branch
+FOREIGN KEY (branch_id)
+REFERENCES library_branch(branch_id)
+ON DELETE CASCADE;
+
+
+ALTER TABLE book_lending
+ADD CONSTRAINT fk_book_lending_card
+FOREIGN KEY (card_no)
+REFERENCES card(card_no)
+ON DELETE CASCADE;
+
+
+
+
+INSERT INTO publisher(name, phone, address) VALUES ('MCGRAW-HILL', 9989076587, 'BANGALORE');
+INSERT INTO publisher(name, phone, address) VALUES ('PEARSON', 9889076565, 'NEWDELHI');
+INSERT INTO publisher(name, phone, address) VALUES ('RANDOM HOUSE', 7455679345, 'HYDERABAD');
+INSERT INTO publisher(name, phone, address) VALUES ('HACHETTE LIVRE', 8970862340, 'CHENNAI');
+INSERT INTO publisher(name, phone, address) VALUES ('GRUPO PLANETA', 7756120238, 'BANGALORE');
+
+
+INSERT INTO book(book_id, title, pub_year, publisher_name) VALUES (1,'DBMS','JAN-2017', 'MCGRAW-HILL');
+INSERT INTO book(book_id, title, pub_year, publisher_name) VALUES (2,'ADBMS','JUN-2016','MCGRAW-HILL');
+INSERT INTO book(book_id, title, pub_year, publisher_name) VALUES (3,'CN','SEP-2016', 'PEARSON');
+INSERT INTO book(book_id, title, pub_year, publisher_name) VALUES (4,'CG','SEP-2015', 'GRUPO PLANETA');
+INSERT INTO book(book_id, title, pub_year, publisher_name) VALUES (5,'OS','MAY-2016', 'PEARSON');
+
+
+
+INSERT INTO book_authors(author_name, book_id) VALUES ('NAVATHE', 1 );
+INSERT INTO book_authors(author_name, book_id) VALUES ('NAVATHE', 2 );
+INSERT INTO book_authors(author_name, book_id) VALUES ('TANENBAUM', 3);
+INSERT INTO book_authors(author_name, book_id) VALUES ('EDWARD ANGEL', 4);
+INSERT INTO book_authors(author_name, book_id) VALUES ('GALVIN', 5);
+
+
+
+INSERT INTO library_branch(branch_id, branch_name, address) VALUES (10,'RR NAGAR','BANGALORE');
+INSERT INTO library_branch(branch_id, branch_name, address) VALUES (11,'RNSIT','BANGALORE');
+INSERT INTO library_branch(branch_id, branch_name, address) VALUES (12,'RAJAJI NAGAR', 'BANGALORE');
+INSERT INTO library_branch(branch_id, branch_name, address) VALUES (13,'NITTE','MANGALORE');
+INSERT INTO library_branch(branch_id, branch_name, address) VALUES (14,'MANIPAL','UDUPI');
+
+
+
+INSERT INTO book_copies(book_id, no_of_copies, branch_id) VALUES (5,1,11);
+INSERT INTO book_copies(book_id, no_of_copies, branch_id) VALUES (2,2,12);
+INSERT INTO book_copies(book_id, no_of_copies, branch_id) VALUES (5,2,13);
+INSERT INTO book_copies(book_id, no_of_copies, branch_id) VALUES (1,5,10);
+INSERT INTO book_copies(book_id, no_of_copies, branch_id) VALUES (3,4,11);
+
+
+INSERT INTO card(card_no) VALUES (100);
+INSERT INTO card(card_no) VALUES (101);
+INSERT INTO card(card_no) VALUES (102);
+INSERT INTO card(card_no) VALUES (103);
+INSERT INTO card(card_no) VALUES (104);
+
+
+
+INSERT INTO book_lending(date_out, due_date, book_id, branch_id, card_no) VALUES ('01-JAN-17','01-JUN-17', 1, 10, 101);
+INSERT INTO book_lending(date_out, due_date, book_id, branch_id, card_no) VALUES ('11-JAN-17','11-MAR-17', 3, 14, 101);
+INSERT INTO book_lending(date_out, due_date, book_id, branch_id, card_no) VALUES ('21-FEB-17','21-APR-17', 2, 13, 101);
+INSERT INTO book_lending(date_out, due_date, book_id, branch_id, card_no) VALUES ('15-MAR-17','15-JUL-17', 4, 11, 101);
+INSERT INTO book_lending(date_out, due_date, book_id, branch_id, card_no) VALUES ('12-APR-17','12-MAY-17', 1, 11, 104);
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+												ASSIGNMENT 2
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+1.............      SELECT book_id, card_no FROM book_lending WHERE due_date = TO_DATE('15-MAR-17', 'DD-MON-YY');
+
+output........      No row selected.
+
+2.............      ALTER TABLE card RENAME TO card_details;
+
+output........     
+
+Table altered.
+
+SQL> desc card_details;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CARD_NO                                   NOT NULL NUMBER(38)
+
+SQL>
+
+
+
+3...........    ALTER TABLE book_lending ADD status VARCHAR2(50);
+
+output......    
+
+Table altered.
+
+SQL> desc book_lending;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DATE_OUT                                           DATE
+ DUE_DATE                                           DATE
+ BOOK_ID                                   NOT NULL NUMBER(38)
+ BRANCH_ID                                 NOT NULL NUMBER(38)
+ CARD_NO                                   NOT NULL NUMBER(38)
+ STATUS                                             VARCHAR2(50)
+
+
+4......... SELECT * FROM book JOIN book_copies  ON book.book_id = book_copies.book_id WHERE book_copies.no_of_copies = 5;
+
+output....  
+   BOOK_ID TITLE                PUB_YEAR             PUBLISHER_NAME         BOOK_ID    NO_OF_COPIES  BRANCH_ID
+---------- -------------------- -------------------- --------------------   ---------- ------------ ----------
+         1 DBMS                 JAN-2017             MCGRAW-HILL             1            5         10
+
+
+5........  ALTER TABLE library_branch RENAME COLUMN address TO branch_address;
+
+output....   
+
+SQL> desc library_branch;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BRANCH_ID                                 NOT NULL NUMBER(38)
+ BRANCH_NAME                                        VARCHAR2(50)
+ BRANCH_ADDRESS                                     VARCHAR2(50)
+
+
+6........   
+
+7........  SELECT * FROM library_branch WHERE branch_address LIKE '%BANGALORE%';
+
+output...  
+
+ BRANCH_ID BRANCH_NAME                                         BRANCH_ADDRESS
+---------- -------------------------------------------------- --------------------------------------------------
+        10 RR NAGAR                                            BANGALORE
+
+        11 RNSIT                                               BANGALORE
+
+        12 RAJAJI NAGAR                                        BANGALORE
+
+8...... SELECT publisher_name FROM book WHERE title = 'DBMS';
+
+output...   
+
+PUBLISHER_NAME
+--------------------
+MCGRAW-HILL
+
+
+9....... SELECT author_name FROM book_authors WHERE book_id = (SELECT book_id FROM book WHERE title = 'DBMS');
+
+output.... 
+
+AUTHOR_NAME
+--------------------
+NAVATHE
+
+10.......  SELECT b.book_id AS book_code, b.title AS book_title, ba.author_name AS author FROM book b JOIN book_authors ba ON b.book_id = ba.book_id WHERE b.title = 'DBMS';
+
+output.....  
+
+ BOOK_CODE BOOK_TITLE           AUTHOR
+---------- -------------------- --------------------
+         1 DBMS                 NAVATHE
+
+ 
